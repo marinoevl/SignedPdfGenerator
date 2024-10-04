@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>PDF Template</title>
+    <style>
+        @page {
+            margin: 0.5in 0.5in 0.5in 0.25in;
+            size: A4 landscape;
+
+            @top-right {
+                content: element(header);
+            }
+        }
+
+        body {
+            font-family: sans-serif;
+            padding: 0;
+            margin-bottom: 110% !important;
+        }
+
+        .signature {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .page-number:before {
+            content: counter(page);
+        }
+
+        .total-pages:before {
+            content: counter(pages);
+        }
+
+        .header {
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: start;
+            align-items: center;
+        }
+
+        .header img {
+            align-self: flex-end;
+        }
+
+
+        .header img {
+            width: 120px;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 50px; /* Ensure there's space for the footer */
+            page-break-inside: auto;
+        }
+
+        table thead {
+            background-color: #001e88;
+            color: white;
+            font-weight: bold;
+        }
+
+        table thead td {
+            border: #001e88 solid 1px;
+        }
+
+        table tbody td {
+            border: #000000 solid 1px;
+        }
+
+        tr {
+            page-break-inside: avoid; /* Avoid breaking rows inside */
+            page-break-after: auto; /* Allow breaks after rows */
+        }
+
+        #header {
+            position: running(header);
+            text-align: right;
+        }
+
+        #signatures {
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            border-style: none;
+            width: 100%;
+        }
+
+        .signature_footer {
+            width: 100%;
+            display: inline-flex;
+            flex-direction: row;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            border-style: none;
+        }
+    </style>
+</head>
+<body>
+<div id="header" style="position: absolute; right: 10px; top: 10px;">Pag. <span class="page-number"></span> de <span
+        class="total-pages"></span></div>
+<div class="header">
+    <h3 style="
+        color: #001e88;
+        font-family: sans-serif;
+        margin-top: 20px;
+        align-self: end;
+        ">
+        CORRESPONDIENTE AL PERIODO {{ month }} - {{ year }} cortado
+        al {{ created_at }}
+    </h3>
+</div>
+<table cellpadding="0">
+    <thead>
+    <tr>
+        <td>Número</td>
+        <td>Fecha</td>
+        <td>Hora</td>
+        <td>Tipo de artículo</td>
+        <td>Marca</td>
+        <td>Modelo</td>
+        <td>Reportado por</td>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <td colspan="7" style="text-align: center;">
+            <div id="signatures">
+                <div style="width: 30%;">
+                    <img
+                            src="{{ signature_2 }}"
+                            alt=""
+                            class="signature"
+                    />
+                </div>
+                <div style="width: 30%;">
+                    <img
+                            src="{{ signature_1 }}"
+                            alt=""
+                            class="signature"
+                    />
+                </div>
+                <div style="width: 30%;">
+                    <img
+                            src="{{ signature }}"
+                            alt=""
+                            class="signature"
+                    />
+                </div>
+            </div>
+            <div class="signature_footer"
+            >
+                <div style="border-top: #000000 solid 2px; width: 30%;">
+            <span style="margin-left: 1rem; margin-right: 1rem"
+            >Entregado por</span
+            >
+                </div>
+                <div style="border-top: #000000 solid 2px; width: 30%;">
+            <span
+                    style="margin-left: 1rem; margin-right: 1rem; text-align: center"
+            >Recibido por</span
+            >
+                </div>
+                <div style="border-top: #000000 solid 2px; width: 30%;">
+            <span style="margin-left: 1rem; margin-right: 1rem"
+            >por</span
+            >
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tfoot>
+    <tbody>
+    {% for event in events %}
+        <tr>
+            <td>{{ event.event_number }}</td>
+            <td>{{ event.date }}</td>
+            <td>{{ event.time }}</td>
+            <td>{{ event.type }}</td>
+            <td>{{ event.Marca }}</td>
+            <td>{{ event.Modelo }}</td>
+            <td>{{ event.created_at }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

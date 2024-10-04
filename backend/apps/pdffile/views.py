@@ -48,7 +48,7 @@ def generate_pdf(request):
         save_base64_image(signature_base64, signature_path)
         context['signature'] = signature_path
 
-    pdf = render_to_pdf('confiscation-template.html', context)
+    pdf = render_to_pdf('example.html', context)
     if pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
